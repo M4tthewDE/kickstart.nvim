@@ -255,6 +255,9 @@ vim.o.breakindent = true
 -- Save undo history
 vim.o.undofile = true
 
+-- Disable line wrap
+vim.o.wrap = false
+
 -- Case-insensitive searching UNLESS \C or capital in search
 vim.o.ignorecase = true
 vim.o.smartcase = true
@@ -481,8 +484,14 @@ require('mason-lspconfig').setup()
 local servers = {
   clangd = {},
   gopls = {},
-  -- pyright = {},
-  rust_analyzer = {},
+  pyright = {},
+  rust_analyzer = {
+    cargo = {
+      buildScripts = {
+        enable = true
+      }
+    }
+  },
   -- tsserver = {},
   html = { filetypes = { 'html', 'twig', 'hbs' } },
 
