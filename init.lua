@@ -92,7 +92,7 @@ require('lazy').setup({
       'folke/neodev.nvim',
     },
   },
-
+  'sakhnik/nvim-gdb',
   {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
@@ -171,6 +171,8 @@ require('lazy').setup({
       },
     },
   },
+
+  'tpope/vim-fireplace',
 
   {
     -- Add indentation guides even on blank lines
@@ -287,6 +289,12 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 
 -- CTRL + S to save
 vim.keymap.set("n", "<C-S>", ":w<cr>", { noremap = true, silent = true })
+
+-- Clojure reload on save
+vim.api.nvim_create_autocmd("BufWritePost", {
+  pattern = "*.clj",
+  command = "silent Require"
+})
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
