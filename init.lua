@@ -156,10 +156,9 @@ require('lazy').setup({
   },
 
   {
-    -- Theme inspired by Atom
-    'rebelot/kanagawa.nvim',
+    'andreypopp/vim-colors-plain',
     config = function()
-      vim.cmd.colorscheme 'kanagawa'
+      vim.cmd.colorscheme('plain')
     end,
   },
 
@@ -178,17 +177,6 @@ require('lazy').setup({
   },
 
   'tpope/vim-fireplace',
-
-  {
-    -- Add indentation guides even on blank lines
-    'lukas-reineke/indent-blankline.nvim',
-    -- Enable `lukas-reineke/indent-blankline.nvim`
-    -- See `:help ibl`
-    main = 'ibl',
-    opts = {
-      scope = { enabled = false },
-    },
-  },
 
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim', opts = {} },
@@ -498,6 +486,7 @@ local servers = {
   clangd = {},
   gopls = {},
   pyright = {},
+  kotlin_language_server = {},
   rust_analyzer = {
     cargo = {
       buildScripts = {
@@ -514,7 +503,10 @@ local servers = {
       telemetry = { enable = false },
     },
   },
+  templ = { filetypes = { 'templ' } },
 }
+
+vim.filetype.add({ extension = { templ = "templ" } })
 
 -- Setup neovim lua configuration
 require('neodev').setup()
