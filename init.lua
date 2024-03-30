@@ -247,6 +247,8 @@ vim.o.mouse = 'a'
 -- Enable break indent
 vim.o.breakindent = true
 
+vim.o.noswapfile = true
+
 -- Save undo history
 vim.o.undofile = true
 
@@ -531,6 +533,22 @@ mason_lspconfig.setup_handlers {
     }
   end,
 }
+
+local kotlin_ls_config = {
+  cmd = { '/home/matti/Programming/kotlin-ls/target/release/kotlin-ls' },
+  filetypes = { 'kotlin' },
+  root_dir = vim.fs.dirname(vim.fs.find({ 'build.gradle.kts' }, { upward = true })[1]),
+}
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = { "*.kt", "*.kts" },
+  callback = function()
+    vim.lsp.start(kotlin_ls_config)
+  end,
+})
+
+vim.lsp.set_log_level("debug")
+
 
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
