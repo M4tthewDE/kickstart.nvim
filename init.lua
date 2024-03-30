@@ -158,7 +158,7 @@ require('lazy').setup({
   {
     'andreypopp/vim-colors-plain',
     config = function()
-      vim.cmd.colorscheme('plain')
+      vim.cmd.colorscheme('lunaperche')
     end,
   },
 
@@ -486,7 +486,6 @@ local servers = {
   clangd = {},
   gopls = {},
   pyright = {},
-  kotlin_language_server = {},
   rust_analyzer = {
     cargo = {
       buildScripts = {
