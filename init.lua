@@ -535,7 +535,8 @@ mason_lspconfig.setup_handlers {
 }
 
 local kotlin_ls_config = {
-  cmd = { '/home/matti/Programming/kotlin-ls/target/release/kotlin-ls' },
+  cmd = { '/home/matti/Programming/kotlin-ls/target/debug/kotlin-ls' },
+  cmd_env = { KOTLIN_LS_LOG = '/home/matti/Programming/kotlin-ls/server.log' },
   filetypes = { 'kotlin' },
   root_dir = vim.fs.dirname(vim.fs.find({ 'build.gradle.kts' }, { upward = true })[1]),
 }
