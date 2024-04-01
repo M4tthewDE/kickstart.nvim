@@ -539,6 +539,7 @@ local kotlin_ls_config = {
   cmd_env = { KOTLIN_LS_LOG = '/home/matti/Programming/kotlin-ls/server.log' },
   filetypes = { 'kotlin' },
   root_dir = vim.fs.dirname(vim.fs.find({ 'build.gradle.kts' }, { upward = true })[1]),
+  on_attach = on_attach,
 }
 
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
