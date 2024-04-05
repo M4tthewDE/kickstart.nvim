@@ -113,9 +113,10 @@ require('lazy').setup({
     dependencies = { "nvim-tree/nvim-web-devicons" },
     vim.keymap.set("n", "<leader>t", function() require("trouble").toggle() end)
   },
+  { 'sbdchd/neoformat' },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim',  opts = {} },
+  { 'folke/which-key.nvim', opts = {} },
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -246,8 +247,6 @@ vim.o.mouse = 'a'
 
 -- Enable break indent
 vim.o.breakindent = true
-
-vim.o.noswapfile = true
 
 -- Save undo history
 vim.o.undofile = true
@@ -458,7 +457,8 @@ local on_attach = function(_, bufnr)
   end, { desc = 'Format current buffer with LSP' })
 end
 
-vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
+-- vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
+vim.cmd [[autocmd BufWritePre *.ts Neoformat]]
 
 -- document existing key chains
 require('which-key').register {
@@ -488,6 +488,8 @@ local servers = {
   clangd = {},
   gopls = {},
   pyright = {},
+  tsserver = {},
+  prismals = {},
   rust_analyzer = {
     cargo = {
       buildScripts = {
@@ -538,7 +540,7 @@ local kotlin_ls_config = {
   cmd = { '/home/matti/Programming/kotlin-ls/target/debug/kotlin-ls' },
   cmd_env = { KOTLIN_LS_LOG = '/home/matti/Programming/kotlin-ls/server.log' },
   filetypes = { 'kotlin' },
-  root_dir = vim.fs.dirname(vim.fs.find({ 'build.gradle.kts' }, { upward = true })[1]),
+  root_dir = vim.fs.dirname(vim.fs.find({ 'build.gradle.kts', '.git/' }, { upward = true })[1]),
   on_attach = on_attach,
 }
 
