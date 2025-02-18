@@ -157,9 +157,9 @@ require('lazy').setup({
   },
 
   {
-    'andreypopp/vim-colors-plain',
+    'projekt0n/github-nvim-theme',
     config = function()
-      vim.cmd.colorscheme('lunaperche')
+      vim.cmd.colorscheme('github_dark_default')
     end,
   },
 
@@ -457,8 +457,15 @@ local on_attach = function(_, bufnr)
   end, { desc = 'Format current buffer with LSP' })
 end
 
--- vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
-vim.cmd [[autocmd BufWritePre *.ts Neoformat]]
+-- vim.cmd [[autocmd BufWritePre *.rs, *.go lua vim.lsp.buf.format()]]
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+  pattern = { "*.rs", "*.go" },
+  callback = function()
+    vim.lsp.buf.format()
+  end,
+})
+--vim.g.neoformat_try_node_exe = 1
+--vim.cmd [[autocmd BufWritePre *.ts Neoformat]]
 
 -- document existing key chains
 require('which-key').register {
@@ -551,7 +558,7 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   end,
 })
 
-vim.lsp.set_log_level("debug")
+-- vim.lsp.set_log_level("debug")
 
 
 -- [[ Configure nvim-cmp ]]
