@@ -609,5 +609,48 @@ cmp.setup {
   },
 }
 
+-- Auto-format with rebar3 fmt on save for Erlang files
+local function setup_rebar3_fmt()
+  local augroup = vim.api.nvim_create_augroup("Rebar3Fmt", { clear = true })
+  
+  vim.api.nvim_create_autocmd("BufWritePost", {
+    group = augroup,
+    pattern = {
+      "*.erl",
+      "*.hrl", 
+      "*.app.src",
+      "rebar.config"
+    },
+    callback = function()
+      -- Run rebar3 fmt asynchronously to avoid blocking
+      vim.fn.jobstart("rebar3 fmt", {
+        on_exit = function(_, exit_code)
+          if exit_code == 0 then
+            -- Reload the buffer to show formatting changes
+            vim.cmd("checktime")
+          else
+            vim.notify("rebar3 fmt failed with exit code: " .. exit_code, vim.log.levels.ERROR)
+          end
+        end,
+        on_stderr = function(_, data)
+        end
+      })
+    end,
+  })
+end
+
+-- Call the setup function
+setup_rebar3_fmt()
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+--
+--
+--
+--
+--
+--
+--
+--
+--
+
