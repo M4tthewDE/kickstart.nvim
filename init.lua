@@ -115,8 +115,6 @@ require('lazy').setup({
   },
   { 'sbdchd/neoformat' },
 
-  -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim', opts = {} },
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -210,6 +208,10 @@ require('lazy').setup({
       'nvim-treesitter/nvim-treesitter-textobjects',
     },
     build = ':TSUpdate',
+  },
+  {
+    'nvim-mini/mini.nvim',
+    version = false
   },
 
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
@@ -467,17 +469,6 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 --vim.g.neoformat_try_node_exe = 1
 --vim.cmd [[autocmd BufWritePre *.ts Neoformat]]
 
--- document existing key chains
-require('which-key').register {
-  ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-  ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-  ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
-  ['<leader>h'] = { name = 'More git', _ = 'which_key_ignore' },
-  ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-  ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-  ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-}
-
 -- mason-lspconfig requires that these setup functions are called in this order
 -- before setting up the servers.
 require('mason').setup()
@@ -495,7 +486,6 @@ local servers = {
   clangd = {},
   gopls = {},
   pyright = {},
-  tsserver = {},
   prismals = {},
   rust_analyzer = {
     cargo = {
@@ -504,7 +494,6 @@ local servers = {
       }
     }
   },
-  -- tsserver = {},
   html = { filetypes = { 'html', 'twig', 'hbs' } },
 
   lua_ls = {
@@ -530,17 +519,6 @@ local mason_lspconfig = require 'mason-lspconfig'
 
 mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(servers),
-}
-
-mason_lspconfig.setup_handlers {
-  function(server_name)
-    require('lspconfig')[server_name].setup {
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = servers[server_name],
-      filetypes = (servers[server_name] or {}).filetypes,
-    }
-  end,
 }
 
 local kotlin_ls_config = {
